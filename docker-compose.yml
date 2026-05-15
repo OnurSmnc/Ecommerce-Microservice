@@ -1,0 +1,27 @@
+services:
+  catalog.db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: catalog_sql_server
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Sifre123!
+    ports:
+      - "1433:1433"
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "Sifre123!" -C -Q "SELECT 1" || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  catalog.api:
+    container_name: ecommerce-catalog.api
+    build:
+      context: . # Solution seviyesine çektik
+      dockerfile: src/services/CatalogService/CatalogService.API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=catalog.db,1433;Database=CatalogDb;User Id=sa;Password=Sifre123!;TrustServerCertificate=True;Encrypt=False
+    depends_on:
+      catalog.db:
+        condition: service_healthy

@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="docker-compose.yml" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/services/" />
+  <Folder Name="/src/services/CatalogService/">
+    <Project Path="CatalogService.Mapper/CatalogService.Mapper.csproj" Id="64e24510-74e5-45a6-954f-ed572303c571" />
+    <Project Path="src/services/CatalogService/CatalogService.API/CatalogService.API.csproj" />
+    <Project Path="src/services/CatalogService/CatalogService.Application/CatalogService.Application.csproj" />
+    <Project Path="src/services/CatalogService/CatalogService.Domain/CatalogService.Domain.csproj" />
+    <Project Path="src/services/CatalogService/CatalogService.Infrastructure/CatalogService.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Shared/">
+    <Project Path="src/shared/Shared.Common.csproj" />
+  </Folder>
+</Solution>
