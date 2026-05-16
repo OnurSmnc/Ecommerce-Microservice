@@ -2,7 +2,7 @@ using CatalogService.Infrastructure;
 using CatalogService.Infrastructure.Context;
 using CatalogService.Mapper;
 using CatalogService.Application.Exceptions;
-using EasyCookApplication;
+using CatalogService.Application;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,21 +32,37 @@ app.UseHttpsRedirection();
 //app.UseAuthorization();
 app.MapControllers();
 
-// Otomatik Migration Bloğu
 using (var scope = app.Services.CreateScope())
 {
-    var serviceProvider = scope.ServiceProvider;
+    var services = scope.ServiceProvider;
+    var logger = services.GetRequiredService<ILogger<Program>>();
+
     try
     {
-        var context = serviceProvider.GetRequiredService<CatalogDbContext>();
-        if (context.Database.GetPendingMigrations().Any())
+        var context = services.GetRequiredService<CatalogDbContext>();
+
+        var retryCount = 0;
+        while (retryCount < 10)
         {
-            context.Database.Migrate();
+            try
+            {
+                logger.LogInformation("Applying migrations... Attempt {Attempt}", retryCount + 1);
+                context.Database.Migrate(); // Creates DB + applies all migrations
+                logger.LogInformation("Migrations applied successfully.");
+                break;
+            }
+            catch (Exception ex)
+            {
+                retryCount++;
+                logger.LogWarning(ex, "Migration failed. Retrying in 5s...");
+                Thread.Sleep(5000); 
+            }
         }
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"Migration sırasında hata oluştu: {ex.Message}");
+        logger.LogError(ex, "An error occurred while migrating the database.");
+        throw;
     }
 }
 

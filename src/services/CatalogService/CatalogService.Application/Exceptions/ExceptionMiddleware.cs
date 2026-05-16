@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using FluentValidation;
+using FluentValidation.TestHelper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.SecurityTokenService;
 using SendGrid.Helpers.Errors.Model;
 using Shared.Common.Models;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Json;
 using BadRequestException = SendGrid.Helpers.Errors.Model.BadRequestException;
@@ -31,6 +32,12 @@ namespace CatalogService.Application.Exceptions
             context.Response.StatusCode = statusCode;
 
             var errorResponse = ApiResponse<object>.FailureResponse(statusCode, exception.Message);
+
+            if (exception.GetType() == typeof(ValidationException))
+            {
+                var combinedErrors = string.Join(", ", ((ValidationException)exception).Errors.Select(x => x.ErrorMessage));
+                errorResponse = ApiResponse<object>.FailureResponse(StatusCodes.Status400BadRequest, combinedErrors);
+            }
 
             var jsonResponse = JsonSerializer.Serialize(errorResponse);
 

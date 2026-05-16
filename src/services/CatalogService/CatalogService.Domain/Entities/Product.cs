@@ -7,9 +7,12 @@ namespace CatalogService.Domain.Entities
 {
     public class Product: EntityBase
     {
+        private static int _idCounter = 1;
+
         public Product() { }
         public Product(string name, string description, decimal price, int stock, int categoryId, DateTime createdDate)
         {
+            //Id = _idCounter++;
             Name = name;
             Description = description;
             Price = price;
