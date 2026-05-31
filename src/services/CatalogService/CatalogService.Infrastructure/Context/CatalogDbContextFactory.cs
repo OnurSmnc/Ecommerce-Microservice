@@ -13,7 +13,7 @@ public class CatalogDbContextFactory : IDesignTimeDbContextFactory<CatalogDbCont
         var optionsBuilder = new DbContextOptionsBuilder<CatalogDbContext>();
 
         optionsBuilder.UseSqlServer(
-            "Server=localhost,1433;Database=CatalogDb;User Id=sa;Password=Sifre123!;TrustServerCertificate=True");
+            "Server=localhost,1433;Database=CatalogDb;User Id=sa;Password=Sifre38901!;TrustServerCertificate=True");
 
         return new CatalogDbContext(optionsBuilder.Options);
     }

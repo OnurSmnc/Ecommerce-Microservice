@@ -11,7 +11,7 @@ namespace CatalogService.Domain.Entities
         public Category() { }
         public Category(string name, DateTime createdDate)
         {
-            //Id = _idCounter++;
+            Id = _idCounter++;
             Name = name;
             CreatedDate = createdDate;
         }

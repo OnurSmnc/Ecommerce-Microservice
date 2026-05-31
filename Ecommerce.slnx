@@ -4,6 +4,9 @@
   </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/services/" />
+  <Folder Name="/src/services/ApiGateaway/">
+    <Project Path="src/services/ApiGateaway/Ecommerce.ApiGateaway/Ecommerce.ApiGateaway.csproj" Id="2bf23fea-b79a-4a51-bb14-11cfe64164fb" />
+  </Folder>
   <Folder Name="/src/services/CatalogService/">
     <Project Path="CatalogService.Mapper/CatalogService.Mapper.csproj" Id="64e24510-74e5-45a6-954f-ed572303c571" />
     <Project Path="src/services/CatalogService/CatalogService.API/CatalogService.API.csproj" />

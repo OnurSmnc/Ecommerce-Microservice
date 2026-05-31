@@ -1,6 +1,7 @@
 ﻿using CatalogService.Application.Features.Categories.Commands.CreateCategory;
 using CatalogService.Application.Features.Categories.Queries;
 using CatalogService.Application.Features.Products.Commands.CreateProducts;
+using CatalogService.Application.Features.Products.Commands.UpdateProducts;
 using CatalogService.Application.Features.Products.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,13 @@ namespace CatalogService.API.Controllers
 
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductsCommandRequest request)
+        {
+            var response = await mediator.Send(request);
+            return Ok(response);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductsCommandRequest request)
         {
             var response = await mediator.Send(request);
             return Ok(response);

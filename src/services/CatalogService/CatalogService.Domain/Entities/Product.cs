@@ -12,7 +12,7 @@ namespace CatalogService.Domain.Entities
         public Product() { }
         public Product(string name, string description, decimal price, int stock, int categoryId, DateTime createdDate)
         {
-            //Id = _idCounter++;
+            Id = _idCounter++;
             Name = name;
             Description = description;
             Price = price;
