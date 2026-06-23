@@ -7,6 +7,12 @@
   <Folder Name="/src/services/ApiGateaway/">
     <Project Path="src/services/ApiGateaway/Ecommerce.ApiGateaway/Ecommerce.ApiGateaway.csproj" Id="2bf23fea-b79a-4a51-bb14-11cfe64164fb" />
   </Folder>
+  <Folder Name="/src/services/BasketService/">
+    <Project Path="src/services/BasketService/BasketService.API/BasketService.API.csproj" Id="5024f8fd-c6a7-4715-93ae-57f6fea6985e" />
+    <Project Path="src/services/BasketService/BasketService.Application/BasketService.Application.csproj" Id="042711bf-95d5-4160-9610-b10914b8e078" />
+    <Project Path="src/services/BasketService/BasketService.Domain/BasketService.Domain.csproj" Id="c97f8fec-fc60-40a2-b778-0ed7613f1032" />
+    <Project Path="src/services/BasketService/BasketService.Infrastructure/BasketService.Infrastructure.csproj" Id="181de940-2d17-46ec-87d8-992a2f221c0f" />
+  </Folder>
   <Folder Name="/src/services/CatalogService/">
     <Project Path="CatalogService.Mapper/CatalogService.Mapper.csproj" Id="64e24510-74e5-45a6-954f-ed572303c571" />
     <Project Path="src/services/CatalogService/CatalogService.API/CatalogService.API.csproj" />
