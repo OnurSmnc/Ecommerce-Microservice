@@ -19,11 +19,25 @@ namespace BasketService.Application.Services.Concrete
         public async Task<ApiResponse<CostumerBasket>> AddItemAsync(string buyerId, BasketItem item)
         {
             var response = await _basketService.GetBasketAsync(buyerId);
-            var basket = response.Data ?? new CostumerBasket { BuyerId = buyerId };
+
+            var basket = (response != null && response.Data != null)
+                ? response.Data
+                : new CostumerBasket { BuyerId = buyerId, Items = new List<BasketItem>() };
+
+            if (basket.Items == null)
+            {
+                basket.Items = new List<BasketItem>();
+            }
 
             var existingItem = basket.Items.FirstOrDefault(x => x.ProductId == item.ProductId);
-            if(existingItem != null) existingItem.Quantity += item.Quantity;
-            else basket.Items.Add(item);
+            if (existingItem != null)
+            {
+                existingItem.Quantity += item.Quantity;
+            }
+            else
+            {
+                basket.Items.Add(item);
+            }
 
             return await _basketService.SaveBasketAsync(basket);
         }
@@ -47,16 +61,10 @@ namespace BasketService.Application.Services.Concrete
 
         public async Task<ApiResponse<CostumerBasket>> RemoveItemAsync(string buyerId, int productId)
         {
-            var response = await _basketService.GetBasketAsync(buyerId);
-            if (response == null) return ApiResponse<CostumerBasket>.FailureResponse(404, "Sepet bulunamadı.");
 
-            var basket = response.Data;
-            var item = basket.Items.FirstOrDefault(x => x.ProductId == productId);
-            if (item == null) return ApiResponse<CostumerBasket>.FailureResponse(404, "Sepet bulunamadı.");
-
-            basket.Items.Remove(item);
-
-            return await _basketService.SaveBasketAsync(basket);
+            //basket.Items.Remove(item);
+            throw new NotImplementedException();
+            //return await _basketService.SaveBasketAsync(basket);
         }
 
         public async Task<ApiResponse<CostumerBasket>> UpdateItemQuantityAsync(string buyerId, int productId, int quantity)
@@ -70,6 +78,7 @@ namespace BasketService.Application.Services.Concrete
 
             if (quantity <= 0)
             {
+                //RemoveItemAsync(buyerId, productId, basket, item);
                 basket.Items.Remove(item);
             }
             else
@@ -77,6 +86,8 @@ namespace BasketService.Application.Services.Concrete
                 item.Quantity = quantity;
             }
 
+            if (basket.Items.Count == 0) await _basketService.DeleteBasketAsync(buyerId);
+            
             return await _basketService.SaveBasketAsync(basket);
         }
 

@@ -1,4 +1,5 @@
 ﻿using BasketService.Application.Services;
+using BasketService.Application.Services.Concrete;
 using BasketService.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +27,7 @@ namespace BasketService.Infrastructure
             });
 
             services.AddScoped<IBasketItemService, BasketItemService>();
+            services.AddScoped<ICostumerBasketService, CostumerBasketService>();
 
             return services;
         }

@@ -57,5 +57,15 @@ namespace BasketService.API.Controllers
             }
             return Ok();
         }
+        [HttpPost("{buyerId}-{productId}-{quantity}/items")]
+        public async Task<IActionResult> UpdateItemAsync(string buyerId, int productId, int quantity)
+        {
+            var result = await _costumerBasketService.UpdateItemQuantityAsync(buyerId, productId, quantity);
+            if (result == null)
+            {
+                return BadRequest("Sepet silinirken bir hata oluştu veya sepet bulunamadı.");
+            }
+            return Ok(result);
+        }
     }
 }

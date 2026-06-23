@@ -13,7 +13,7 @@
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
     },
     {
-      "DownstreamPathTemplate": "/api/{everything}",
+      "DownstreamPathTemplate": "/api/Basket/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -21,7 +21,7 @@
           "Port": 8080
         }
       ],
-      "UpstreamPathTemplate": "/api/basket/{everything}",
+      "UpstreamPathTemplate": "/api/Basket/{everything}", // Buradaki büyük/küçük harf duyarlılığına dikkat edin
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
     }
   ],
