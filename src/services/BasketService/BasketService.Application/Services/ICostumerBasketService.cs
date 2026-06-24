@@ -14,7 +14,7 @@ namespace BasketService.Application.Services
         Task<ApiResponse<CostumerBasket>> AddItemAsync(string buyerId, BasketItem item);
         Task<ApiResponse<CostumerBasket>> RemoveItemAsync(string buyerId, int productId);
         Task<ApiResponse<CostumerBasket>> UpdateItemQuantityAsync(string buyerId, int productId, int quantity);
-        Task<ApiResponse<CostumerBasket>> ApplyCouponAsync(string buyerId, string couponCode);
+        Task<ApiResponse<CostumerBasket>> ApplyCouponAsync(string buyerId, string couponCode, decimal discountRate);
         Task<ApiResponse<CostumerBasket>> RemoveCouponAsync(string buyerId);
         //Task<ApiResponse<BasketSummary>> GetBasketSummaryAsync(string buyerId);
         Task<ApiResponse<bool>> ValidateBasketAsync(string buyerId);

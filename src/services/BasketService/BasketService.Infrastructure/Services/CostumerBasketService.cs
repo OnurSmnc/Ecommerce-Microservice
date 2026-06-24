@@ -42,9 +42,25 @@ namespace BasketService.Application.Services.Concrete
             return await _basketService.SaveBasketAsync(basket);
         }
 
-        public Task<ApiResponse<CostumerBasket>> ApplyCouponAsync(string buyerId, string couponCode)
+        public async Task<ApiResponse<CostumerBasket>> ApplyCouponAsync(string buyerId, string couponCode, decimal discountRate)
         {
-            throw new NotImplementedException();
+            var response = await _basketService.GetBasketAsync(buyerId);
+            if(response == null || response.Data == null || !response.Success)
+            {
+                return ApiResponse<CostumerBasket>.FailureResponse(404, "Sepet bulunamadı.");
+            }
+
+            var basket = response.Data;
+
+            try
+            {
+                basket.ApplyCoupon(couponCode, discountRate);
+            }catch (Exception ex)
+            {
+                return ApiResponse<CostumerBasket>.FailureResponse(400, ex.Message);
+            }
+
+            return await _basketService.SaveBasketAsync(basket);
         }
 
         public async Task<ApiResponse<CostumerBasket>> GetBasketAsync(string buyerId)
@@ -54,16 +70,45 @@ namespace BasketService.Application.Services.Concrete
             return basket;
         }
 
-        public Task<ApiResponse<CostumerBasket>> RemoveCouponAsync(string buyerId)
+        public async Task<ApiResponse<CostumerBasket>> RemoveCouponAsync(string buyerId)
         {
+            var response = await _basketService.GetBasketAsync(buyerId);
+            if (response == null || response.Data == null || !response.Success)
+            {
+                return ApiResponse<CostumerBasket>.FailureResponse(404, "Sepet bulunamadı.");
+            }
+
+            var basket = response.Data;
+
+            try
+            {
+                basket.RemoveCoupon();
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse<CostumerBasket>.FailureResponse(400, ex.Message);
+            }
+
+            return await _basketService.SaveBasketAsync(basket);
             throw new NotImplementedException();
         }
 
         public async Task<ApiResponse<CostumerBasket>> RemoveItemAsync(string buyerId, int productId)
         {
+            var response = await _basketService.GetBasketAsync(buyerId);
+            if (!response.Success)
+                return ApiResponse<CostumerBasket>.FailureResponse(404, "Sepet bulunamadı.");
+
+            var basket = response.Data;
+            var item = basket.Items.FirstOrDefault(x => x.ProductId == productId);
+            if (item == null)
+                return ApiResponse<CostumerBasket>.FailureResponse(404, "Ürün sepette bulunamadı.");
+
+            basket.Items.Remove(item);
+            return await _basketService.SaveBasketAsync(basket);
 
             //basket.Items.Remove(item);
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
             //return await _basketService.SaveBasketAsync(basket);
         }
 

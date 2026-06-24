@@ -35,7 +35,7 @@ namespace BasketService.API.Controllers
         [HttpPost("{buyerId}/items")]
         public async Task<IActionResult> AddItem(string buyerId, AddBasketItemRequest request)
         {
-            var item = new BasketItem(  
+            var item = new BasketItem(
                 request.ProductId,
                 request.ProductName,
                 request.Price,
@@ -51,7 +51,7 @@ namespace BasketService.API.Controllers
         public async Task<IActionResult> DeleteBasketByIdAsync(string buyerId)
         {
             var result = await _basketItemService.DeleteBasketAsync(buyerId);
-            if (!result)
+            if (!result.Success)
             {
                 return BadRequest("Sepet silinirken bir hata oluştu veya sepet bulunamadı.");
             }
@@ -65,6 +65,20 @@ namespace BasketService.API.Controllers
             {
                 return BadRequest("Sepet silinirken bir hata oluştu veya sepet bulunamadı.");
             }
+            return Ok(result);
+        }
+
+        [HttpPost("{buyerId}/apply-coupon")]
+        public async Task<IActionResult> ApplyCouponAsync(string buyerId,  ApplyCouponRequest request)
+        {
+            var result = await _costumerBasketService.ApplyCouponAsync(buyerId, request.CouponCode, request.DiscountRate);
+            return Ok(result);
+        }
+
+        [HttpPost("{buyerId}/remove-coupon")]
+        public async Task<IActionResult> RemoveCouponAsync(string buyerId)
+        {
+            var result = await _costumerBasketService.RemoveCouponAsync(buyerId);
             return Ok(result);
         }
     }

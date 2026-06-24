@@ -16,6 +16,6 @@ namespace BasketService.Application.Services
 
         Task<ApiResponse<CostumerBasket>> SaveBasketAsync(CostumerBasket basket);
 
-        Task<bool> DeleteBasketAsync(string buyerId);
+        Task<ApiResponse<DeleteItemResponse>> DeleteBasketAsync(string buyerId);
     }
 }

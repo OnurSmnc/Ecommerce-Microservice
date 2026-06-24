@@ -20,9 +20,12 @@ namespace BasketService.Infrastructure.Services
         {
             _database = redis.GetDatabase();
         }
-        public async Task<bool> DeleteBasketAsync(string buyerId)
+        public async Task<ApiResponse<DeleteItemResponse>> DeleteBasketAsync(string buyerId)
         {
-            return await _database.KeyDeleteAsync(GetRedisKey(buyerId));
+            bool isDeleted = await _database.KeyDeleteAsync(GetRedisKey(buyerId));
+            var returnResponse = isDeleted == true ? ApiResponse<DeleteItemResponse>.SuccessResponse(data: null, message: "Customer basket deleted succesfully")
+                : ApiResponse<DeleteItemResponse>.FailureResponse(statusCode: 404, message: "Customer basket not found");
+            return returnResponse;
         }
 
         public async Task<ApiResponse<CostumerBasket>> GetBasketAsync(string buyerId)
